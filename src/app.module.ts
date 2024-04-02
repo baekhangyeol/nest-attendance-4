@@ -3,6 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import { DataSource } from 'typeorm';
+import { AttendanceModule } from './attendance/attendance.module';
+import { User } from './attendance/entities/user.entity';
+import { Attendance } from './attendance/entities/attendance.entity';
 
 @Module({
   imports: [
@@ -28,6 +31,7 @@ import { DataSource } from 'typeorm';
         return addTransactionalDataSource(new DataSource(options));
       },
     }),
+    AttendanceModule,
   ],
   controllers: [],
   providers: [],
