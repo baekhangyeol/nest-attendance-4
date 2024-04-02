@@ -20,6 +20,7 @@ import { Attendance } from './attendance/entities/attendance.entity';
           password: process.env.DB_PASSWORD,
           database: process.env.DB_DATABASE,
           synchronize: process.env.DB_SYNC === 'true',
+          entities: [User, Attendance],
           timezone: 'Z',
         };
       },
