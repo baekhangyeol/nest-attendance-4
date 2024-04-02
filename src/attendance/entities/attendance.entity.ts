@@ -16,6 +16,6 @@ export class Attendance {
   })
   status: AttendanceStatusEnum;
 
-  @OneToOne(() => User)
+  @OneToOne(() => User, user => user.attendance)
   user: User;
 }
