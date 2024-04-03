@@ -6,6 +6,9 @@ import { User } from './entities/user.entity';
 import { CreateAttendanceRequestDto } from './dto/request/create-attendacne-request.dto';
 import { AttendanceStatusEnum } from './entities/attendance-status.enum';
 import { CreateAttendanceResponseDto } from './dto/response/create-attendance-response.dto';
+import { PaginationDto } from '../common/dto/pagination.dto';
+import { createPaginationResult, PaginationResult } from '../common/util/pagination.util';
+import { GetAttendanceResponseDto } from './dto/response/get-attendance-response.dto';
 
 @Injectable()
 export class AttendanceService {
@@ -49,6 +52,25 @@ export class AttendanceService {
       return AttendanceStatusEnum.LATE;
     else if (minute >= 21 && minute <= 50)
       return AttendanceStatusEnum.ABSENT;
+  }
+
+  async getAttendance(dto: PaginationDto, userId: number): Promise<PaginationResult<GetAttendanceResponseDto>> {
+    const date = new Date();
+    date.setDate(date.getDate() - 30);
+
+    const [attendances, total] = await this.attendanceRepository
+      .createQueryBuilder('attendance')
+      .leftJoinAndSelect('attendance.user', 'user')
+      .where('user.id = :userId', { userId })
+      .andWhere('attendance.attendanceTime > :date', { date })
+      .orderBy('attendance.attendanceTime', 'DESC')
+      .skip((dto.page - 1) * dto.limit)
+      .take(dto.limit)
+      .getManyAndCount();
+
+    const result = attendances.map(attendance => GetAttendanceResponseDto.from(attendance));
+
+    return createPaginationResult(result, dto.page, dto.limit, total);
   }
 
 }
