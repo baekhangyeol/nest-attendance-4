@@ -30,7 +30,7 @@ export class AttendanceService {
     const attendance = this.attendanceRepository.create({...dto, attendanceTime, status, user});
     await this.attendanceRepository.save(attendance);
 
-    return CreateAttendanceResponseDto.from(attendance);
+    return CreateAttendanceResponseDto.from(<CreateAttendanceResponseDto>attendance);
   }
 
   private getAttendanceStatus(attendanceTime: Date | string): AttendanceStatusEnum {
@@ -68,7 +68,7 @@ export class AttendanceService {
       .take(dto.limit)
       .getManyAndCount();
 
-    const result = attendances.map(attendance => GetAttendanceResponseDto.from(attendance));
+    const result = attendances.map(attendance => GetAttendanceResponseDto.from(<GetAttendanceResponseDto>attendance));
 
     return createPaginationResult(result, dto.page, dto.limit, total);
   }

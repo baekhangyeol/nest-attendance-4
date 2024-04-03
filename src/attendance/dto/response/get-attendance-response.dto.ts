@@ -5,6 +5,7 @@ export class GetAttendanceResponseDto {
   id: number;
   attendanceTime: Date;
   status: AttendanceStatusEnum;
+  userId: number;
   user: User;
 
   public static from(dto: GetAttendanceResponseDto): GetAttendanceResponseDto {
@@ -12,6 +13,7 @@ export class GetAttendanceResponseDto {
     response.id = dto.id;
     response.attendanceTime = dto.attendanceTime;
     response.status = dto.status;
+    response.userId = dto.user.id;
     response.user = dto.user;
 
     return response;

@@ -5,6 +5,7 @@ export class CreateAttendanceResponseDto {
     id: number;
     attendanceTime: Date;
     status: AttendanceStatusEnum;
+    userId: number;
     user: User;
 
     public static from(dto: CreateAttendanceResponseDto): CreateAttendanceResponseDto {
@@ -12,6 +13,7 @@ export class CreateAttendanceResponseDto {
         it.id = dto.id;
         it.attendanceTime = dto.attendanceTime;
         it.status = dto.status;
+        it.userId = dto.user.id;
         it.user = dto.user;
         return it;
     }
