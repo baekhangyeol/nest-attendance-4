@@ -9,7 +9,4 @@ export class CreateAttendanceRequestDto {
 
   @IsNotEmpty()
   studentId: number;
-
-  @IsNotEmpty()
-  attendanceTime: Date;
 }

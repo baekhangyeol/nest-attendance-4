@@ -18,19 +18,19 @@ export class AttendanceService {
   }
 
   async createAttendance(dto: CreateAttendanceRequestDto) {
+    const attendanceTime = new Date();
     const user = await this.userRepository.findOneBy({ studentId: dto.studentId });
     if (!user) {
       throw new Error('유저를 찾을 수 없습니다.');
     }
-    const status = this.getAttendanceStatus(dto.attendanceTime);
-    const attendance = this.attendanceRepository.create({...dto, status, user});
+    const status = this.getAttendanceStatus(attendanceTime);
+    const attendance = this.attendanceRepository.create({...dto, attendanceTime, status, user});
     await this.attendanceRepository.save(attendance);
 
     return CreateAttendanceResponseDto.from(attendance);
   }
 
   private getAttendanceStatus(attendanceTime: Date | string): AttendanceStatusEnum {
-    // attendanceTime이 문자열이라면 Date 객체로 변환
     const attendanceDate = new Date(attendanceTime);
 
     const classStartHour = 9;
