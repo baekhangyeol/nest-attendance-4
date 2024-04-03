@@ -43,11 +43,11 @@ export class AttendanceService {
       return AttendanceStatusEnum.ABSENT;
     }
 
-    if(minute <= 10)
+    if (minute >= 51 || minute <= 10)
       return AttendanceStatusEnum.PRESENT;
-    else if(minute <= 20)
+    else if (minute >= 11 && minute <= 20)
       return AttendanceStatusEnum.LATE;
-    else
+    else if (minute >= 21 && minute <= 50)
       return AttendanceStatusEnum.ABSENT;
   }
 
