@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './user.entity';
 import { AttendanceStatusEnum } from './attendance-status.enum';
 
@@ -16,6 +16,6 @@ export class Attendance {
   })
   status: AttendanceStatusEnum;
 
-  @OneToOne(() => User, user => user.attendance)
+  @ManyToOne(() => User, user => user.attendance)
   user: User;
 }
